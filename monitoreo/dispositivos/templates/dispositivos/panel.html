@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Panel de Dispositivos - EcoEnergy</title>
+</head>
+<body>
+    <h1>Panel de Dispositivos Conectados</h1>
+    <h3>Límite permitido: {{ limite }} W</h3>
+
+    <ul>
+        {% for d in dispositivos %}
+            <li>
+                {{ d.nombre }} - Consumo: {{ d.consumo }} W
+                {% if d.consumo > consumo_maximo %}
+                    ⚠️ <b>Excede el límite</b>
+                {% else %}
+                    ✅ Dentro del límite
+                {% endif %}
+            </li>
+        {% endfor %}
+    </ul>
+
+    <h3>Total dispositivos críticos: {{ criticos }}</h3>
+</body>
+</html>
