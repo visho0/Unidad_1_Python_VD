@@ -31,4 +31,4 @@ def panel_dispositivo(request):
         "criticos": criticos
     }
 
-    return render(request, "dispositivos/panel_dispositivo.html", contexto)  
+    return render(request, "dispositivos/panel.html", contexto)  
