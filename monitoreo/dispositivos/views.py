@@ -25,7 +25,10 @@ def panel_dispositivo(request):
 
     criticos = sum(1 for d in dispositivos if d["consumo"] > consumo_maximo)
 
-    return render(request, "dispositivos/panel_dispositivo.html", {
+    contexto = {
         "dispositivos": dispositivos,
-        "consumo_maximo": consumo_maximo
-    })
+        "consumo_maximo": consumo_maximo,
+        "criticos": criticos
+    }
+
+    return render(request, "dispositivos/panel_dispositivo.html", contexto)  

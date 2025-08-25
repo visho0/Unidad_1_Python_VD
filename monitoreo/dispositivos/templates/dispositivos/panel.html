@@ -2,25 +2,29 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Panel de Dispositivos - EcoEnergy</title>
+    <title>Panel de dispositivos</title>
+    <style>
+        body { font-family: Arial, sans-serif; }
+        h1 { color: black; }
+        .correcto { color: green; }
+        .exceso { color: red; }
+    </style>
 </head>
 <body>
-    <h1>Panel de Dispositivos Conectados</h1>
-    <h3>Límite permitido: {{ limite }} W</h3>
+    <h1>Panel de dispositivos</h1>
+    <p>Consumo máximo permitido: {{ consumo_maximo }} W</p>
 
     <ul>
         {% for d in dispositivos %}
-            <li>
-                {{ d.nombre }} - Consumo: {{ d.consumo }} W
-                {% if d.consumo > consumo_maximo %}
-                    ⚠️ <b>Excede el límite</b>
-                {% else %}
-                    ✅ Dentro del límite
-                {% endif %}
-            </li>
+            {% if d.consumo > consumo_maximo %}
+                <li class="exceso">● {{ d.nombre }} - {{ d.consumo }} W - Exceso</li>
+            {% else %}
+                <li class="correcto">● {{ d.nombre }} - {{ d.consumo }} W - Correcto</li>
+            {% endif %}
         {% endfor %}
     </ul>
 
-    <h3>Total dispositivos críticos: {{ criticos }}</h3>
+    <p><b>Total dispositivos en exceso:</b> {{ criticos }}</p>
 </body>
 </html>
+
