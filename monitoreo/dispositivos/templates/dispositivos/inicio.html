@@ -4,9 +4,12 @@
     <title>Bienvenido</title>
 </head>
 <body>
-    <h1>Hola {{ contexto.nombre }}</h1>
-    {% for p in productos %}
-        <p>Producto: {{ p.nombre }} - Valor: {{ p.valor }}</p>
-    {% endfor %}
+    <h1>Dispositivo {{ dispositivo.nombre }}</h1>
+    <p>Categoria: {{ dispositivo.categoria }}</p>
+    <p>Fecha de creacion: {{ dispositivo.created_at }} </p>
+    <p>Estado: {{ dispositivo.estado }}</p>
+    volver a <a href="{% url 'inicio' %}">Inicio</a>
 </body>
 </html>
+
+

@@ -1,66 +1,58 @@
-from django.db import models 
+from django.db import models
 
-class Categoria(models.Model):
+# -----------------------------
+# Modelo Base con atributos comunes
+# -----------------------------
+class BaseModel(models.Model):
+    ESTADOS = [
+        ("ACTIVO", "Activo"),
+        ("INACTIVO", "Inactivo"),
+    ]
+
+    estado = models.CharField(max_length=10, choices=ESTADOS, default="ACTIVO")
+    created_at = models.DateTimeField(auto_now_add=True)   # se asigna al crear
+    updated_at = models.DateTimeField(auto_now=True)       # se actualiza cada vez que se guarda
+    deleted_at = models.DateTimeField(null=True, blank=True)  # opcional para borrado lógico
+
+    class Meta:
+        abstract = True   # no crea tabla, solo se hereda
+
+# -----------------------------
+# Tablas principales
+# -----------------------------
+class Categoria(BaseModel):
     nombre = models.CharField(max_length=100)
-    descripcion = models.TextField(blank=True, null=True)
 
     def __str__(self):
         return self.nombre
 
-
-class Zona(models.Model):
+class Zona(BaseModel):
     nombre = models.CharField(max_length=100)
-    ubicacion = models.CharField(max_length=200, blank=True, null=True)
 
     def __str__(self):
         return self.nombre
 
-
-class Dispositivo(models.Model):
+class Dispositivo(BaseModel):
     nombre = models.CharField(max_length=100)
-    # ahora pueden ser nulos hasta que se asignen
-    categoria = models.ForeignKey(
-        Categoria,
-        on_delete=models.CASCADE,
-        related_name="dispositivos",
-        null=True,
-        blank=True
-    )
-    zona = models.ForeignKey(
-        Zona,
-        on_delete=models.CASCADE,
-        related_name="dispositivos",
-        null=True,
-        blank=True
-    )
-    consumo_maximo = models.DecimalField(max_digits=8, decimal_places=2, default=0.00)  # en Watts
+    categoria = models.ForeignKey(Categoria, on_delete=models.CASCADE)
+    zona = models.ForeignKey(Zona, on_delete=models.CASCADE)
+    consumo_maximo = models.IntegerField()  # watts
 
     def __str__(self):
-        # Previene error si aún no tiene categoría
-        return f"{self.nombre} ({self.categoria.nombre if self.categoria else 'Sin categoría'})"
+        return self.nombre
 
-
-class Medicion(models.Model):
-    dispositivo = models.ForeignKey(Dispositivo, on_delete=models.CASCADE, related_name="mediciones")
+class Medicion(BaseModel):
+    dispositivo = models.ForeignKey(Dispositivo, on_delete=models.CASCADE)
     fecha = models.DateTimeField(auto_now_add=True)
-    consumo = models.DecimalField(max_digits=8, decimal_places=2)  # Watts medidos
+    consumo = models.FloatField()  # kWh
 
     def __str__(self):
-        return f"{self.dispositivo.nombre} - {self.consumo} W ({self.fecha.strftime('%Y-%m-%d %H:%M')})"
+        return f"{self.dispositivo} - {self.consumo} kWh"
 
-
-class Alerta(models.Model):
-    dispositivo = models.ForeignKey(Dispositivo, on_delete=models.CASCADE, related_name="alertas")
+class Alerta(BaseModel):
+    dispositivo = models.ForeignKey(Dispositivo, on_delete=models.CASCADE)
+    mensaje = models.CharField(max_length=200)
     fecha = models.DateTimeField(auto_now_add=True)
-    mensaje = models.TextField()
-    nivel = models.CharField(
-        max_length=20,
-        choices=[
-            ("INFO", "Info"),
-            ("WARNING", "Warning"),
-            ("CRITICO", "Crítico"),
-        ]
-    )
 
     def __str__(self):
-        return f"Alerta {self.nivel} - {self.dispositivo.nombre}"
+        return f"Alerta {self.dispositivo} - {self.mensaje}"
