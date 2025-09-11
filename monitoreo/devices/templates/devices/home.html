@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>EcoEnergy - Devices</title>
+</head>
+<body>
+    <h1>EcoEnergy - Devices</h1>
+
+    {% if devices %}
+        <table border="1">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Category</th>
+                    <th>Zone</th>
+                    <th>Organization</th>
+                    <th>Status</th>
+                    <th>Created at</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for device in devices %}
+                    <tr>
+                        <td><a href="{% url 'device_detail' device.id %}">{{ device.name }}</a></td>
+                        <td>{{ device.category.name }}</td>
+                        <td>{{ device.zone.name }}</td>
+                        <td>{{ device.organization.name }}</td>
+                        <td>{{ device.status }}</td>
+                        <td>{{ device.created_at }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>No devices registered.</p>
+    {% endif %}
+
+    <p>
+        <a href="{% url 'create_device' %}">➕ Add new device</a>
+    </p>
+</body>
+</html>
