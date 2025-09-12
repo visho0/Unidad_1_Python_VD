@@ -1,6 +1,9 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import Device
 from .forms import DeviceForm
+from django.core.paginator import Paginator
+from .models import Measurement
+from datetime import datetime, timedelta
 
 def home(request):
     # Using select_related to optimize queries
@@ -40,3 +43,12 @@ def create_device(request):
         form = DeviceForm()
     
     return render(request, "devices/create.html", {"form": form})
+
+def measurements_view(request):
+    # Aquí puedes agregar la lógica para obtener y filtrar las mediciones
+    measurements = []  # Reemplaza esto con la consulta real a tu modelo de mediciones
+
+    return render(request, "devices/measurements.html", {
+        "measurements": measurements
+    })
+
