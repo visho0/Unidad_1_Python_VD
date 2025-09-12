@@ -17,7 +17,7 @@ Including another URLconf
 from xml.etree.ElementInclude import include
 from django.contrib import admin
 from django.urls import path, include
-from devices.views import home, device_detail, create_device, device_panel
+from devices.views import home, device_detail, create_device, device_panel, measurements_view
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -30,5 +30,5 @@ urlpatterns = [
     path('devices/<int:device_id>/', device_detail, name="device_detail"),
     path('devices/create/', create_device, name="create_device"),
     path('create/', create_device, name="create_device"),  # <--- aquí la ruta
+    path('devices/measurements/', measurements_view, name="measurements"),
 ]
-
