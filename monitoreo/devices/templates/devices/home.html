@@ -1,42 +1,206 @@
+{% load static %}
 <!DOCTYPE html>
 <html>
 <head>
-    <title>EcoEnergy - Devices</title>
+    <title>Dashboard - EcoEnergy</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        .card {
+            border-radius: 12px;
+        }
+        footer {
+            background: #f8f9fa;
+            padding: 10px 0;
+            text-align: center;
+            margin-top: 20px;
+            font-size: 14px;
+            color: #666;
+        }
+    </style>
 </head>
 <body>
-    <h1>EcoEnergy - Devices</h1>
+<!-- NAVBAR -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm">
+    <div class="container-fluid">
+        <a class="navbar-brand fw-bold" href="#">EcoEnergy</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav me-auto">
+                <li class="nav-item"><a class="nav-link active" href="#">Dashboard</a></li>
+                <li class="nav-item"><a class="nav-link" href="#">Dispositivos</a></li>
+                <li class="nav-item"><a class="nav-link" href="#">Mediciones</a></li>
+            </ul>
+            <div class="d-flex">
+                <a href="{% url 'login' %}" class="btn btn-outline-light me-2">Iniciar sesión</a>
+                <a href="{% url 'register' %}" class="btn btn-primary">Registrarse</a>
+            </div>
+        </div>
+    </div>
+</nav>
 
-    {% if devices %}
-        <table border="1">
-            <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Category</th>
-                    <th>Zone</th>
-                    <th>Organization</th>
-                    <th>Status</th>
-                    <th>Created at</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for device in devices %}
-                    <tr>
-                        <td><a href="{% url 'device_detail' device.id %}">{{ device.name }}</a></td>
-                        <td>{{ device.category.name }}</td>
-                        <td>{{ device.zone.name }}</td>
-                        <td>{{ device.organization.name }}</td>
-                        <td>{{ device.status }}</td>
-                        <td>{{ device.created_at }}</td>
-                    </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    {% else %}
-        <p>No devices registered.</p>
-    {% endif %}
+<!-- CONTENIDO PRINCIPAL -->
+<div class="container mt-4">
+    <div class="row g-3">
 
-    <p>
-        <a href="{% url 'create_device' %}">➕ Add new device</a>
-    </p>
+        <!-- Dispositivos por Categoría -->
+        <div class="col-md-4">
+            <div class="card shadow-sm h-100">
+                <div class="card-body">
+                    <h6 class="fw-bold">DISPOSITIVOS POR CATEGORÍA</h6>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">Categoría A <span class="badge bg-secondary float-end">5</span></li>
+                        <li class="list-group-item">Categoría B <span class="badge bg-secondary float-end">8</span></li>
+                        <li class="list-group-item">Categoría C <span class="badge bg-secondary float-end">5</span></li>
+                        <li class="list-group-item">Categoría D <span class="badge bg-secondary float-end">5</span></li>
+                        <li class="list-group-item">Categoría E <span class="badge bg-secondary float-end">5</span></li>
+                        <li class="list-group-item">Categoría F <span class="badge bg-secondary float-end">5</span></li>
+                        <li class="list-group-item">Categoría G <span class="badge bg-secondary float-end">5</span></li>
+                        
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Dispositivos por Zona -->
+        <div class="col-md-4">
+            <div class="card shadow-sm h-100">
+                <div class="card-body">
+                    <h6 class="fw-bold">DISPOSITIVOS POR ZONA</h6>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">Zona Norte <span class="badge bg-secondary float-end">8</span></li>
+                        <li class="list-group-item">Zona Centro <span class="badge bg-secondary float-end">7</span></li>
+                        <li class="list-group-item">Zona Sur <span class="badge bg-secondary float-end">0</span></li>
+                        <li class="list-group-item">Zona Austral <span class="badge bg-secondary float-end">0</span></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Alertas de la semana -->
+        <div class="col-md-4">
+            <div class="card shadow-sm h-100">
+                <div class="card-body">
+                    <h6 class="fw-bold">ALERTAS DE LA SEMANA</h6>
+                    <p><span class="badge bg-danger">Grave 2</span> 
+                       <span class="badge bg-warning text-dark">Altas 5</span> 
+                       <span class="badge bg-secondary">Medianas 9</span></p>
+                    <small class="text-muted">*Criterios de severidad configurables por dispositivo.</small>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Últimas mediciones y alertas recientes -->
+    <div class="row g-3 mt-3">
+        <div class="col-md-6">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h6 class="fw-bold d-flex justify-content-between">ÚLTIMAS 10 MEDICIONES <a href="#" class="small">Ver todas</a></h6>
+                    <table class="table table-sm">
+                        <thead>
+                            <tr>
+                                <th>Fecha/Hora</th>
+                                <th>Dispositivo</th>
+                                <th>Valor</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>2025-08-25 10:02</td><td><a href="#">Disp-001</a></td><td>230.5</td></tr>
+                            <tr><td>2025-08-25 09:51</td><td><a href="#">Disp-009</a></td><td>218.2</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Alertas recientes -->
+        <div class="col-md-6">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h6 class="fw-bold d-flex justify-content-between">ALERTAS RECIENTES <a href="#" class="small">Ver todas</a></h6>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">
+                            <strong>Disp-004</strong> - Valor fuera de rango (min 200, max 220)
+                            <span class="badge bg-danger float-end">Alto</span>
+                        </li>
+                        <li class="list-group-item">
+                            <strong>Disp-002</strong> - Desviación sostenida
+                            <span class="badge bg-warning text-dark float-end">Grave</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Sección de dispositivos -->
+    <div class="row g-3 mt-3">
+        <div class="col-12">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h6 class="fw-bold d-flex justify-content-between">DISPOSITIVOS <a href="/devices/panel/" class="small">Ir a listado</a></h6>
+                    
+                    <!-- Filtros -->
+                    <form class="row g-2 mb-3">
+                        <div class="col-md-4">
+                            <select class="form-select">
+                                <option selected>Categoría</option>
+                                <option>Categoria A</option>
+                                <option>Categoria B</option>
+                            </select>
+                        </div>
+                        <div class="col-md-4">
+                            <select class="form-select">
+                                <option selected>Zona</option>
+                                <option>Zona Norte</option>
+                                <option>Zona Centro</option>
+                            </select>
+                        </div>
+                        <div class="col-md-4">
+                            <button class="btn btn-dark w-100">Aplicar Filtros</button>
+                        </div>
+                    </form>
+
+                    <!-- Cards de dispositivos -->
+                    <div class="row g-3">
+                        <div class="col-md-4">
+                            <div class="card p-3 shadow-sm">
+                                <h6>Disp-001</h6>
+                                <p class="mb-0 text-muted">Categoría A • Zona Norte</p>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card p-3 shadow-sm">
+                                <h6>Disp-002</h6>
+                                <p class="mb-0 text-muted">Categoría B • Zona Centro</p>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card p-3 shadow-sm">
+                                <h6>Disp-003</h6>
+                                <p class="mb-0 text-muted">Categoría A • Zona Sur</p>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+    <div class="container">
+        <p>© 2025 EcoEnergy | Soporte</p>
+    </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
