@@ -1,30 +1,64 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <title>Panel de dispositivos</title>
-    <style>
-        body { font-family: Arial, sans-serif; }
-        h1 { color: black; }
-        .correcto { color: green; }
-        .exceso { color: red; }
-    </style>
-</head>
-<body>
-    <h1>Panel de dispositivos</h1>
-    <p>Consumo máximo permitido: {{ consumo_maximo }} W</p>
+<!-- Sección de dispositivos -->
+<div class="row g-3 mt-3">
+    <div class="col-12">
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <!-- Encabezado -->
+                <h6 class="fw-bold d-flex justify-content-between align-items-center">
+                    DISPOSITIVOS 
+                </h6>
 
-    <ul>
-        {% for d in dispositivos %}
-            {% if d.consumo > consumo_maximo %}
-                <li class="exceso">● {{ d.nombre }} - {{ d.consumo }} W - Exceso</li>
-            {% else %}
-                <li class="correcto">● {{ d.nombre }} - {{ d.consumo }} W - Correcto</li>
-            {% endif %}
-        {% endfor %}
-    </ul>
+                <!-- Filtros -->
+                <form class="row gy-2 gx-3 align-items-center mb-4">
+                    <div class="col-12 col-md-4">
+                        <select class="form-select">
+                            <option selected>Categoría</option>
+                            <option>Categoria A</option>
+                            <option>Categoria B</option>
+                        </select>
+                    </div>
+                    <div class="col-12 col-md-4">
+                        <select class="form-select">
+                            <option selected>Zona</option>
+                            <option>Zona Norte</option>
+                            <option>Zona Centro</option>
+                        </select>
+                    </div>
+                    <div class="col-12 col-md-4">
+                        <button class="btn btn-dark w-100">Aplicar Filtros</button>
+                    </div>
+                </form>
 
-    <p><b>Total dispositivos en exceso:</b> {{ criticos }}</p>
-</body>
-</html>
+                <!-- Cards de dispositivos -->
+                <div class="row g-3">
+                    <div class="col-12 col-sm-6 col-lg-4">
+                        <div class="card p-3 shadow-sm h-100">
+                            <h6 class="fw-bold">Disp-001</h6>
+                            <p class="mb-0 text-muted">Categoría A • Zona Norte</p>
+                        </div>
+                    </div>
+                    <div class="col-12 col-sm-6 col-lg-4">
+                        <div class="card p-3 shadow-sm h-100">
+                            <h6 class="fw-bold">Disp-002</h6>
+                            <p class="mb-0 text-muted">Categoría B • Zona Centro</p>
+                        </div>
+                    </div>
+                    <div class="col-12 col-sm-6 col-lg-4">
+                        <div class="card p-3 shadow-sm h-100">
+                            <h6 class="fw-bold">Disp-003</h6>
+                            <p class="mb-0 text-muted">Categoría A • Zona Sur</p>
+                        </div>
+                    </div>
+                </div>
 
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- FOOTER -->
+<footer class="mt-4 py-3 bg-light border-top">
+    <div class="container text-center">
+        <p class="mb-0">© 2025 EcoEnergy | Soporte</p>
+    </div>
+</footer>
